@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register | CareConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f4ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            height: 60px;
+        }
+
+        .website-name {
+            font-size: 26px;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .container {
+            margin-top: 60px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, button {
+            padding: 14px;
+            border: 1px solid #0072e6;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            background: #0056b3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #004080;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .login-link a {
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        .message.error {
+            color: red;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            background-color: #e9f0ff;
+            border-top: 1px solid #ccc;
+        }
+
+        .footer a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ Header -->
+    <div class="header">
+        <div class="header-left">
+            <a th:href="@{/}">
+                <img th:src="@{/images/logo1.png}" alt="CareConnect Logo">
+            </a>
+            <div class="website-name">CareConnect</div>
+        </div>
+    </div>
+
+    <!-- ✅ Registration Form -->
+    <div class="container">
+        <h2>Register</h2>
+
+        <p th:if="${success}" th:text="${success}" class="message success"></p>
+        <p th:if="${error}" th:text="${error}" class="message error"></p>
+
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <input type="text" th:field="*{fullName}" placeholder="Full Name" required>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
+            <input type="password" th:field="*{password}" placeholder="Password" required>
+            <input type="number" th:field="*{age}" placeholder="Age" required>
+            <label style="text-align: left; font-weight: bold;">Date of Birth:</label>
+            <input type="date" th:field="*{dob}" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="login-link">Already have an account? <a th:href="@{/login}">Login</a></p>
+    </div>
+
+    <!-- ✅ Footer -->
+    <div class="footer">
+        &copy; 2025 CareConnect. All rights reserved. |
+        <a th:href="@{/contact}">Contact Us</a> |
+        <a th:href="@{/privacy-policy}">Privacy Policy</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | CareConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f5ff;
+            color: #003366;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            width: 100%;
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            height: 60px;
+            cursor: pointer;
+        }
+
+        .website-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .nav a.logout {
+            color: red;
+        }
+
+        .container {
+            padding: 40px 20px;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, button {
+            padding: 12px;
+            border: 1px solid #0056b3;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #0056b3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #004080;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .back-link a {
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            background: #e9f0ff;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            border-top: 1px solid #ccc;
+        }
+
+        .footer a {
+            margin: 0 10px;
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Header -->
+<div class="header">
+    <div class="header-left">
+        <a th:href="@{/dashboard}">
+            <img src="/images/logo1.png" alt="CareConnect Logo">
+        </a>
+        <div class="website-name">CareConnect</div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/appointments}">Appointments</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/logout}" class="logout">Logout</a>
+    </nav>
+</div>
+
+<!-- ✅ Content -->
+<div class="container">
+    <div class="form-card">
+        <h2>Edit Profile</h2>
+
+        <!-- Success Message -->
+        <p class="success-message" th:if="${success}" th:text="${success}"></p>
+
+        <form th:action="@{/profile/update}" th:object="${user}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="text" th:field="*{fullName}" placeholder="Full Name" required>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
+            <input type="number" th:field="*{age}" placeholder="Age" required>
+            <input type="date" th:field="*{dob}" required>
+            <input type="password" th:field="*{password}" placeholder="New Password (leave blank to keep)">
+            <button type="submit">Update Profile</button>
+        </form>
+
+        <div class="back-link">
+            <a th:href="@{/dashboard}">← Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Footer -->
+<div class="footer">
+    &copy; 2025 CareConnect. All rights reserved. |
+    <a th:href="@{/contact}">Contact Us</a> |
+    <a th:href="@{/privacy}">Privacy Policy</a>
+</div>
+
+</body>
+</html>

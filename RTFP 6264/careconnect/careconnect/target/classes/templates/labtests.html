@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Tests | CareConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f4ff;
+            color: #003366;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            width: 100%;
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            height: 70px;
+        }
+
+        .website-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .nav a.logout {
+            color: red;
+        }
+
+        .container {
+            padding: 40px 20px;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .labtest-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="date"], button {
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #0072e6;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            background: #0056b3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #004080;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #0056b3;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: darkred;
+        }
+
+        .footer {
+            background: #e9f0ff;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            border-top: 1px solid #ccc;
+        }
+
+        .footer a {
+            margin: 0 10px;
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Header -->
+<div class="header">
+    <div class="header-left">
+        <a th:href="@{/dashboard}">
+            <img src="/images/logo1.png" alt="CareConnect Logo">
+        </a>
+        <div class="website-name">CareConnect</div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/appointments}">Appointments</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/logout}" class="logout">Logout</a>
+    </nav>
+</div>
+
+<!-- ✅ Content -->
+<div class="container">
+    <div class="labtest-card">
+        <h2>Book a Lab Test</h2>
+
+        <form th:action="@{/labtests/book}" method="post" th:object="${labTest}">
+            <div>
+                <label for="testType">Select Test</label>
+                <select id="testType" name="testType" th:field="*{testType}" required>
+                    <option value="">-- Select Test --</option>
+                    <option th:each="test : ${labTests}" th:value="${test}" th:text="${test}"></option>
+                </select>
+            </div>
+
+            <div>
+                <label for="testDate">Select Date</label>
+                <input type="date" id="testDate" name="testDate" th:field="*{testDate}" required>
+            </div>
+
+            <div>
+                <label for="timeSlot">Select Time Slot</label>
+                <select id="timeSlot" name="timeSlot" th:field="*{timeSlot}" required>
+                    <option value="">-- Select Time Slot --</option>
+                    <option th:each="slot : ${timeSlots}" th:value="${slot}" th:text="${slot}"></option>
+                </select>
+            </div>
+
+            <button type="submit">Book Test</button>
+        </form>
+
+        <h2 style="margin-top: 40px;">Scheduled Lab Tests</h2>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="appointment : ${scheduledAppointments}">
+                <td th:text="${appointment.testType}"></td>
+                <td th:text="${appointment.testDate}"></td>
+                <td th:text="${appointment.timeSlot}"></td>
+                <td>
+                    <form th:action="@{/labtests/cancel}" method="post">
+                        <input type="hidden" name="id" th:value="${appointment.id}">
+                        <button class="cancel-btn" type="submit">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- ✅ Footer -->
+<div class="footer">
+    © 2025 CareConnect. All rights reserved. |
+    <a th:href="@{/contact}">Contact Us</a> |
+    <a th:href="@{/privacy}">Privacy Policy</a>
+</div>
+
+</body>
+</html>

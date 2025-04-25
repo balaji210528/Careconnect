@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | CareConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f4ff;
+            color: #003366;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            height: 60px;
+        }
+
+        .website-name {
+            font-size: 26px;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #003366;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="date"], input[type="time"], button {
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #0072e6;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            background: #0056b3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #004080;
+        }
+
+        .datetime-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .datetime-group {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-end;
+            }
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #0056b3;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: darkred;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            background-color: #e9f0ff;
+            border-top: 1px solid #ccc;
+        }
+
+        .footer a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Header -->
+<div class="header">
+    <div class="header-left">
+        <a th:href="@{/dashboard}">
+            <img th:src="@{/images/logo1.png}" alt="CareConnect Logo">
+        </a>
+        <div class="website-name">CareConnect</div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/appointments}">Appointments</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/logout}" style="color: red;">Logout</a>
+    </nav>
+</div>
+
+<!-- ✅ Content -->
+<div class="container">
+    <h2>Book an Appointment</h2>
+    <form th:action="@{/appointments/book}" method="post">
+        <div>
+            <label for="hospital">Hospital (Hyderabad)</label>
+            <select id="hospital" name="hospital" required>
+                <option value="">-- Select Hospital --</option>
+                <option th:each="hospital : ${hospitals}" th:value="${hospital}" th:text="${hospital}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label for="doctor">Doctor</label>
+            <select id="doctor" name="doctor" required>
+                <option value="">-- Select Doctor --</option>
+                <option th:each="doctor : ${doctors}" th:value="${doctor}" th:text="${doctor}"></option>
+            </select>
+        </div>
+
+        <div class="datetime-group">
+            <div>
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div>
+                <label for="time">Time</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+        </div>
+
+        <button type="submit">Book Appointment</button>
+    </form>
+
+    <!-- ✅ Scheduled Appointments -->
+    <h2 style="margin-top: 40px;">Your Scheduled Appointments</h2>
+    <table>
+        <tr>
+            <th>Hospital</th>
+            <th>Doctor</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="appointment : ${appointments}">
+            <td th:text="${appointment.hospital}"></td>
+            <td th:text="${appointment.doctor}"></td>
+            <td>Hyderabad</td>
+            <td th:text="${appointment.date}"></td>
+            <td th:text="${appointment.time}"></td>
+            <td>
+                <form th:action="@{/appointments/cancel}" method="post">
+                    <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                    <button class="cancel-btn" type="submit">Cancel</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!-- ✅ Footer -->
+<div class="footer">
+    &copy; 2025 CareConnect. All rights reserved. |
+    <a th:href="@{/contact}">Contact Us</a> |
+    <a th:href="@{/privacy-policy}">Privacy Policy</a>
+</div>
+
+</body>
+</html>

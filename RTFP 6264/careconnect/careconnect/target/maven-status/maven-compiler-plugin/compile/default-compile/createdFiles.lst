@@ -1,0 +1,4 @@
+com\careconnect\repository\UserRepository.class
+com\careconnect\model\User.class
+com\careconnect\careconnect\CareconnectApplication.class
+com\careconnect\controller\UserController.class

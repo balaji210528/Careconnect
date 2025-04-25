@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CareConnect - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .logo {
+            width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="CareConnect Logo" class="logo">
+    </header>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="text-center">
+            <h1>Welcome to CareConnect</h1>
+            <p>Your personal healthcare companion for seamless medical management</p>
+            <div class="buttons">
+                <a th:href="@{/register}" class="btn btn-primary">Get Started</a>
+                <a th:href="@{/login}" class="btn btn-secondary">Sign In</a>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid">
+            <div class="feature">
+                <img src="images/icon.png" alt="Healthcare">
+                <h3>Healthcare Professionals</h3>
+                <p>Connect with qualified doctors and specialists</p>
+            </div>
+            <div class="feature">
+                <img src="images/calender.png" alt="Scheduling">
+                <h3>Easy Scheduling</h3>
+                <p>Book appointments at your convenience</p>
+            </div>
+            <div class="feature">
+                <img src="images/flask.png" alt="Lab Tests">
+                <h3>Lab Tests</h3>
+                <p>Schedule and manage your lab tests</p>
+            </div>
+            <div class="feature">
+                <img src="images/chat.png" alt="Messaging">
+                <h3>Secure Messaging</h3>
+                <p>Communicate with your healthcare team</p>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta">
+            <h2>Ready to take control of your healthcare?</h2>
+            <p>Join thousands of patients who trust CareConnect for their healthcare management</p>
+            <a th:href="@{/register}" class="btn btn-primary">Create Your Account</a>
+        </div>
+    </div>
+</body>
+</html>
